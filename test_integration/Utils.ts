@@ -2,6 +2,11 @@ import {TransactionObject} from "../interacts/types";
 
 
 export default class Utils {
+
+  public static ZERO_BYTES32:string = '0x0000000000000000000000000000000000000000000000000000000000000000';
+
+  public static NULL_ADDRESS: string = '0x0000000000000000000000000000000000000000';
+
   /**
    * Fund address for gas with ETH
    * @param beneficiary Beneficiary Address.
