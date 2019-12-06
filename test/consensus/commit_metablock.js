@@ -32,7 +32,7 @@ const anchorBlockHeight = 1;
 let contracts = {};
 let commitParams = {};
 
-contract('Consensus::commit', (accounts) => {
+contract('Consensus::commitMetablock', (accounts) => {
   const accountProvider = new Utils.AccountProvider(accounts);
   let committeeSecret;
   beforeEach(async () => {
@@ -73,10 +73,10 @@ contract('Consensus::commit', (accounts) => {
       );
     });
 
-    it('should fail when there is not core for the specified metachain id', async () => {
+    it('should fail when there is no core for the specified metachain id', async () => {
       await Utils.expectRevert(
         consensusUtil.commit(contracts.Consensus, commitParams),
-        'There is no core for the specified chain id.',
+        'There is no core for the specified metachain id.',
       );
     });
 
@@ -88,7 +88,7 @@ contract('Consensus::commit', (accounts) => {
       );
       await Utils.expectRevert(
         consensusUtil.commit(contracts.Consensus, commitParams),
-        'There is no core for the specified chain id.',
+        'There is no core for the specified metachain id.',
       );
     });
 
@@ -100,7 +100,7 @@ contract('Consensus::commit', (accounts) => {
       );
       await Utils.expectRevert(
         consensusUtil.commit(contracts.Consensus, commitParams),
-        'There is no core for the specified chain id.',
+        'There is no core for the specified metachain id.',
       );
     });
 
@@ -112,11 +112,11 @@ contract('Consensus::commit', (accounts) => {
       );
       await Utils.expectRevert(
         consensusUtil.commit(contracts.Consensus, commitParams),
-        'There is no core for the specified chain id.',
+        'There is no core for the specified metachain id.',
       );
     });
 
-    it('should fail when precommit proposal is 0', async () => {
+    it.skip('should fail when precommit is 0', async () => {
       await contracts.Consensus.setAssignment(commitParams.metachainId, contracts.SpyCore.address);
       await contracts.Consensus.setCoreStatus(
         contracts.SpyCore.address,
@@ -124,7 +124,7 @@ contract('Consensus::commit', (accounts) => {
       );
       await Utils.expectRevert(
         consensusUtil.commit(contracts.Consensus, commitParams),
-        'There is no precommit for the specified core.',
+        'Core has not precommitted.',
       );
     });
 

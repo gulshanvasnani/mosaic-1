@@ -428,7 +428,7 @@ contract Consensus is MasterCopyNonUpgradable, MosaicVersion, CoreStatusEnum, Co
      * @param _sourceBlockHeight Source block height.
      * @param _targetBlockHeight Target block height.
      */
-    function commit(
+    function commitMetablock(
         bytes32 _metachainId,
         bytes calldata _rlpBlockHeader,
         bytes32 _kernelHash,
