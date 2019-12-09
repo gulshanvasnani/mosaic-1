@@ -664,6 +664,38 @@ contract Consensus is MasterCopyNonUpgradable, CoreStatusEnum, ConsensusI {
         proposals[_proposal] = committee_;
     }
 
+    /**
+     * @notice It validates whether address is active validator or not.
+     *
+     * @dev Function requires:
+     *          - validator address is active in core.
+     *          - validator address is not slashed.
+     *
+     * @param _core Address of core contract.
+     * @param _validator Address of validator.
+     *
+     * @return True if validator is active and not slashed.
+     */
+    function isValidator(
+        address _core,
+        address _validator
+    )
+        internal
+        returns (bool validatorStatus_)
+    {
+        require(
+            _core.isValidator(_validator),
+            "Validator must be active in this core."
+        );
+
+        require(
+            !reputation.isSlashed(_validator),
+            "Validator is slashed."
+        );
+
+        validatorStatus_ = true;
+    }
+
 
     /* Private functions */
 
