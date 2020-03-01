@@ -227,13 +227,12 @@ class ProxyDeployer {
         this.config.erc20CogatewayMasterCopyAddress(),
       );
 
-    const outboxStorageIndex = 4;
-    /*
+    // const outboxStorageIndex = 4;
+
     const outboxStorageIndex = await gen0erc20C0gateway
       .methods
-      .OUTBOX_OFFSET
+      .OUTBOX_OFFSET()
       .call();
-    */
 
     const erc20GatewaySetupParamTypes = 'bytes32,address,address,uint256,uint8';
 
@@ -287,9 +286,8 @@ class ProxyDeployer {
         this.config.erc20GatewayProxyContractAddress(),
       );
 
-    const outboxStorageIndex = 4;
-    // const outboxStorageIndex = await erc20Gateway.methods.OUTBOX_OFFSET.call();
-    console.log('outboxStorageIndex: ', outboxStorageIndex);
+    // const outboxStorageIndex = 4;
+    const outboxStorageIndex = await erc20Gateway.methods.OUTBOX_OFFSET().call();
 
     const gen0ERC20Cogateway = new this
       .web3Auxiliary

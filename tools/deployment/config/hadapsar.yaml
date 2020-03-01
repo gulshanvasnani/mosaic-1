@@ -9,21 +9,23 @@ deployer address:
   auxiliary: '0x18e4226843f4De5bff4F12ba17E8029abAf794Bf'
 accounts:
   - '0x18e4226843f4De5bff4F12ba17E8029abAf794Bf':
-      keystore path: tools/0x18e4226843f4De5bff4F12ba17E8029abAf794Bf.json
-      keystore password: tools/a
+      keystore path: >-
+        /Users/deepeshkn/Documents/untitled
+        folder/tools/0x18e4226843f4De5bff4F12ba17E8029abAf794Bf.json
+      keystore password: /Users/deepeshkn/Documents/untitled folder/tools/a
 maximum number of storage roots: 10
 master copy contracts:
   origin:
     anchor: '0x4fDF26dc9a99D11FfB39a2d88a7E39E49544602a'
-    erc20 gateway: '0xF94AB7001DdE021d5D3BAf34B99438f7170Ae696'
-    proxy deployer: '0x1567c8ef052f7d6DC185C24b41E6e9DB08053b14'
+    erc20 gateway: '0x6c1DDb69df642BCE917e35c10D0cF5CDB8111685'
+    proxy deployer: '0xF6Fe165642ba0bB72D4cD27581F7b6904D330046'
   auxiliary:
     anchor: '0x2Bbe4DFb364e76dA987Ac5754bB87b476cC6D80B'
-    utility token: '0x882b56A390119455Ad109bc1288ec8aAE8BF3931'
-    erc20 cogateway: '0xDaE8f05FB3fac567cb5e8cA2aC2797e1965eE03C'
-    proxy deployer: '0x223036631e25D67cc932F0c91B8F8D0383E5eea2'
+    utility token: '0xb9be77FDF58664317E774B8aD16Faaa49a9c7cBD'
+    erc20 cogateway: '0x8b1cAEa4cf8aD9b8444229e8D8780db04f3F2cdf'
+    proxy deployer: '0xF150D66B79f044A4ba0E69aC7014CDa28bC1b688'
 proxy contracts:
   origin:
-    erc20 gateway: '0x1567c8ef052f7d6DC185C24b41E6e9DB08053b14'
+    erc20 gateway: '0xF6Fe165642ba0bB72D4cD27581F7b6904D330046'
   auxiliary:
-    erc20 cogateway: '0x223036631e25D67cc932F0c91B8F8D0383E5eea2'
+    erc20 cogateway: '0xF150D66B79f044A4ba0E69aC7014CDa28bC1b688'
