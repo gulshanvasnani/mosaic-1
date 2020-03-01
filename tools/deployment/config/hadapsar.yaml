@@ -1,0 +1,29 @@
+chain id:
+  origin: '5'
+  auxiliary: '1405'
+ethereum node endpoints:
+  origin: 'https://rpc.slock.it/goerli'
+  auxiliary: 'https://chain.mosaicdao.org/hadapsar'
+deployer address:
+  origin: '0x18e4226843f4De5bff4F12ba17E8029abAf794Bf'
+  auxiliary: '0x18e4226843f4De5bff4F12ba17E8029abAf794Bf'
+accounts:
+  - '0x18e4226843f4De5bff4F12ba17E8029abAf794Bf':
+      keystore path: tools/0x18e4226843f4De5bff4F12ba17E8029abAf794Bf.json
+      keystore password: tools/a
+maximum number of storage roots: 10
+master copy contracts:
+  origin:
+    anchor: '0x4fDF26dc9a99D11FfB39a2d88a7E39E49544602a'
+    erc20 gateway: '0xF94AB7001DdE021d5D3BAf34B99438f7170Ae696'
+    proxy deployer: '0x1567c8ef052f7d6DC185C24b41E6e9DB08053b14'
+  auxiliary:
+    anchor: '0x2Bbe4DFb364e76dA987Ac5754bB87b476cC6D80B'
+    utility token: '0x882b56A390119455Ad109bc1288ec8aAE8BF3931'
+    erc20 cogateway: '0xDaE8f05FB3fac567cb5e8cA2aC2797e1965eE03C'
+    proxy deployer: '0x223036631e25D67cc932F0c91B8F8D0383E5eea2'
+proxy contracts:
+  origin:
+    erc20 gateway: '0x1567c8ef052f7d6DC185C24b41E6e9DB08053b14'
+  auxiliary:
+    erc20 cogateway: '0x223036631e25D67cc932F0c91B8F8D0383E5eea2'
