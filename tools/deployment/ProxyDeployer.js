@@ -242,6 +242,7 @@ class ProxyDeployer {
       .abi
       .encodeFunctionSignature(`setup(${erc20GatewaySetupParamTypes})`);
 
+    console.log("ProxyDeployer -> getERC20GatewayDeploymentRawTx -> this.config.maxStorageRootItems()", this.config.maxStorageRootItems());
     const erc20GatewaySetupCallData = this
       .web3Origin
       .eth

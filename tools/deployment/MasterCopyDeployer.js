@@ -176,6 +176,7 @@ class MasterCopyDeployer {
       this.auxiliaryDeployer,
     );
     if (utilityTokenMasterCopyAddress !== null) {
+      console.log("MasterCopyDeployer -> deploy -> this.config", this.config);
       this.config.updateUtilityTokenMasterCopyAddress(utilityTokenMasterCopyAddress);
     } else {
       return;

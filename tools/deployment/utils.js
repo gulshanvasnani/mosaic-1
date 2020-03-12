@@ -30,7 +30,7 @@ const unlockAccount = (web3, keystorePath, passwordPath) => {
   try {
     const web3Account = web3.eth.accounts.decrypt(
       encryptedKeyStore,
-      fs.readFileSync(passwordPath).toString(),
+      fs.readFileSync(passwordPath).toString().trim(),
     );
     web3.eth.accounts.wallet.add(web3Account);
   } catch (e) {

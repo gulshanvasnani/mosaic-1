@@ -62,8 +62,10 @@ class Config {
   }
 
   keyStorePath(address) {
+    console.log("Config -> keyStorePath -> address", address);
     let path;
     const accounts = this.config[ACCOUNTS];
+    console.log("Config -> keyStorePath -> accounts", accounts);
     for (let index = 0; index < accounts.length; index += 1) {
       const accountData = accounts[index];
       if (accountData[address] !== undefined) {
@@ -128,6 +130,7 @@ class Config {
   }
 
   updateUtilityTokenMasterCopyAddress(address) {
+    console.log("Config -> updateUtilityTokenMasterCopyAddress -> this.config[MASTER_COPY_CONTRACTS]", this.config[MASTER_COPY_CONTRACTS]);
     this.config[MASTER_COPY_CONTRACTS][AUXILIARY][UTILITY_TOKEN] = address;
   }
 
