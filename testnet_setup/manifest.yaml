@@ -17,16 +17,16 @@ accounts:
 master copy contracts:
   origin:
     anchor: '0x4fDF26dc9a99D11FfB39a2d88a7E39E49544602a'
-    erc20 gateway: '0xb66cE711493a549f1e8546b41F54ba5580ee0408'
-    proxy deployer: '0x65E1A3d1e95E271325B882aa139997AFAE6F0351'
+    erc20 gateway: '0xeC657CE01CCE7DF869Ec40CB1970915e85195c32'
+    proxy deployer: '0x69a4632492B7A3cA7da2E156E46bDbE354c0e66b'
   auxiliary:
     anchor: '0x2Bbe4DFb364e76dA987Ac5754bB87b476cC6D80B'
-    utility token: '0xE9fE14Fe52b1b2daEf15dcadfE16AaC9C1758a45'
-    erc20 cogateway: '0x15A517E0fEa6a55Da0331bdB7466cD01Aca7F036'
-    proxy deployer: '0x1d01e9a61476f0Cc519628CCFe8573b6908616AD'
+    utility token: '0xc120414c9740EFCfCf857f3086969C3ED9938720'
+    erc20 cogateway: '0x6D2a96400B1322189f694878f7c5DEEc86a1AEc3'
+    proxy deployer: '0x24dB88035114D044EF8735cf0284D77310880a94'
 proxy contracts:
   origin:
-    erc20 gateway: '0x65E1A3d1e95E271325B882aa139997AFAE6F0351'
+    erc20 gateway: '0x69a4632492B7A3cA7da2E156E46bDbE354c0e66b'
   auxiliary:
-    erc20 cogateway: '0x1d01e9a61476f0Cc519628CCFe8573b6908616AD'
+    erc20 cogateway: '0x24dB88035114D044EF8735cf0284D77310880a94'
 maximum number of storage roots: 100

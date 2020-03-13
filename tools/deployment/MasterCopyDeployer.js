@@ -176,7 +176,6 @@ class MasterCopyDeployer {
       this.auxiliaryDeployer,
     );
     if (utilityTokenMasterCopyAddress !== null) {
-      console.log("MasterCopyDeployer -> deploy -> this.config", this.config);
       this.config.updateUtilityTokenMasterCopyAddress(utilityTokenMasterCopyAddress);
     } else {
       return;
@@ -241,6 +240,7 @@ class MasterCopyDeployer {
       console.log('  ❌ Failed to update manifest fileUnlocking');
       console.log(`  ${error}`);
     }
+    console.log('MasterCopyDeployer -> deploy -> this.config', JSON.stringify(this.config));
   }
 }
 

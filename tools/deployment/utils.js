@@ -7,9 +7,7 @@ const cliProgress = require('cli-progress');
 
 const CONTRACT_BUILD_PATH = '../../build/contracts/';
 
-const isAccountUnlocked = (web3, account) => {
-  return web3.eth.accounts.wallet[account] !== undefined;
-};
+const isAccountUnlocked = (web3, account) => web3.eth.accounts.wallet[account] !== undefined;
 
 // Function to unlock the account.
 const unlockAccount = (web3, keystorePath, passwordPath) => {
@@ -53,7 +51,7 @@ const getMetadata = (contractName) => {
       + 'Truffle compile must be run before building the package.',
     );
   }
-
+  console.log('reading abi for contract:', contractName, ' from path: ', contractPath);
   const contractFile = fs.readFileSync(contractPath);
   return JSON.parse(contractFile);
 };
@@ -105,27 +103,25 @@ const send = async (rawTx, txOptions) => new Promise((resolve, reject) => {
 });
 
 // Deploy contract.
-const deployContract = (contract, txOptions) => {
-  return new Promise((resolve, reject) => {
-    contract.deploy().estimateGas((err, gas) => {
-      if (err) {
-        reject(err);
-      } else {
-        // eslint-disable-next-line no-param-reassign
-        txOptions.gas = gas;
-        send(contract.deploy(), txOptions)
-          .then((receipt) => {
-            resolve(receipt.options.address);
-          })
-          .catch((error) => {
-            reject(error);
-          });
-      }
-    });
+const deployContract = (contract, txOptions) => new Promise((resolve, reject) => {
+  contract.deploy().estimateGas((err, gas) => {
+    if (err) {
+      reject(err);
+    } else {
+      // eslint-disable-next-line no-param-reassign
+      txOptions.gas = gas;
+      send(contract.deploy(), txOptions)
+        .then((receipt) => {
+          resolve(receipt.options.address);
+        })
+        .catch((error) => {
+          reject(error);
+        });
+    }
   });
-};
+});
 
-const deployProxy = (rawTx, deployer) => new Promise( async (resolve, reject) => {
+const deployProxy = (rawTx, deployer) => new Promise(async (resolve, reject) => {
   estimateGas(rawTx, deployer).then((estimatedGas) => {
     const transaction = {
       from: deployer,

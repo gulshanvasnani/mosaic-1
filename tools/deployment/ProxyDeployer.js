@@ -199,6 +199,7 @@ class ProxyDeployer {
       .eth
       .abi
       .encodeFunctionSignature('setup()');
+    console.log('ProxyDeployer -> getGen0ERC20CogatewayDeploymentRawTx -> gen0ERC20CogatewaySetupData', gen0ERC20CogatewaySetupData);
 
     const proxyFactoryAuxiliary = new this
       .web3Auxiliary
@@ -214,7 +215,7 @@ class ProxyDeployer {
         this.config.erc20CogatewayMasterCopyAddress(),
         gen0ERC20CogatewaySetupData,
       );
-
+    console.log('this.config.erc20CogatewayMasterCopyAddress() : ', this.config.erc20CogatewayMasterCopyAddress());
     return gen0ERC20CogatewayProxyRawTx;
   }
 
@@ -226,13 +227,13 @@ class ProxyDeployer {
         Utils.getABI('Gen0ERC20Cogateway'),
         this.config.erc20CogatewayMasterCopyAddress(),
       );
-
-    // const outboxStorageIndex = 4;
+    console.log('this.config.erc20CogatewayMasterCopyAddress() : ', this.config.erc20CogatewayMasterCopyAddress());
 
     const outboxStorageIndex = await gen0erc20C0gateway
       .methods
       .OUTBOX_OFFSET()
       .call();
+    console.log('ProxyDeployer -> getERC20GatewayDeploymentRawTx -> outboxStorageIndex', outboxStorageIndex);
 
     const erc20GatewaySetupParamTypes = 'bytes32,address,address,uint256,uint8';
 
@@ -242,7 +243,7 @@ class ProxyDeployer {
       .abi
       .encodeFunctionSignature(`setup(${erc20GatewaySetupParamTypes})`);
 
-    console.log("ProxyDeployer -> getERC20GatewayDeploymentRawTx -> this.config.maxStorageRootItems()", this.config.maxStorageRootItems());
+    console.log('ProxyDeployer -> getERC20GatewayDeploymentRawTx -> this.config.maxStorageRootItems()', this.config.maxStorageRootItems());
     const erc20GatewaySetupCallData = this
       .web3Origin
       .eth
@@ -251,12 +252,13 @@ class ProxyDeployer {
         erc20GatewaySetupParamTypes.split(','),
         [
           this.metachainId,
-          this.config.erc20CogatewayMasterCopyAddress(),
+          this.config.erc20CogatewayProxyContractAddress(),
           this.config.originAnchorAddress(),
           this.config.maxStorageRootItems(),
           outboxStorageIndex,
         ],
       );
+    console.log('ProxyDeployer -> getERC20GatewayDeploymentRawTx -> erc20GatewaySetupCallData', erc20GatewaySetupCallData);
 
     const erc20GatewaySetupData = `${erc20GatewaySetupCallPrefix}${erc20GatewaySetupCallData.substring(2)}`;
 
@@ -274,7 +276,7 @@ class ProxyDeployer {
         this.config.erc20GatewayMasterCopyAddress(),
         erc20GatewaySetupData,
       );
-
+    console.log('this.config.erc20GatewayMasterCopyAddress() : ', this.config.erc20GatewayMasterCopyAddress());
     return erc20GatewayProxyRawTx;
   }
 
@@ -284,12 +286,11 @@ class ProxyDeployer {
       .eth
       .Contract(
         Utils.getABI('ERC20Gateway'),
-        this.config.erc20GatewayProxyContractAddress(),
+        this.config.erc20GatewayMasterCopyAddress(),
       );
 
-    // const outboxStorageIndex = 4;
     const outboxStorageIndex = await erc20Gateway.methods.OUTBOX_OFFSET().call();
-
+    console.log('ProxyDeployer -> getActivateGen0ERC20CogatewayRawTx -> outboxStorageIndex', outboxStorageIndex);
     const gen0ERC20Cogateway = new this
       .web3Auxiliary
       .eth
@@ -297,6 +298,7 @@ class ProxyDeployer {
         Utils.getABI('Gen0ERC20Cogateway'),
         this.config.erc20CogatewayProxyContractAddress(),
       );
+    console.log('ProxyDeployer -> getActivateGen0ERC20CogatewayRawTx -> this.config.erc20CogatewayProxyContractAddress()', this.config.erc20CogatewayProxyContractAddress());
 
     const cogatewayActivateRawTx = gen0ERC20Cogateway
       .methods
@@ -304,10 +306,16 @@ class ProxyDeployer {
         this.metachainId,
         this.config.erc20GatewayProxyContractAddress(),
         this.config.auxiliaryAnchorAddress(),
-        this.config.maxStorageRootItems(),
-        outboxStorageIndex,
+        this.config.maxStorageRootItems().toString(10),
+        outboxStorageIndex.toString(10),
         this.config.utilityTokenMasterCopyAddress(),
       );
+    console.log('this.metachainId', this.metachainId);
+    console.log(' this.config.erc20GatewayProxyContractAddress()', this.config.erc20GatewayProxyContractAddress());
+    console.log(' this.config.auxiliaryAnchorAddress()', this.config.auxiliaryAnchorAddress());
+    console.log(' this.config.maxStorageRootItems()', this.config.maxStorageRootItems());
+    console.log(' outboxStorageIndex', outboxStorageIndex);
+    console.log(' this.config.utilityTokenMasterCopyAddress()', this.config.utilityTokenMasterCopyAddress());
 
     return cogatewayActivateRawTx;
   }
@@ -352,6 +360,8 @@ class ProxyDeployer {
     console.info('\n  • Activating Gen0ERC20Cogateway.');
     try {
       const cogatewayActivateRawTx = await this.getActivateGen0ERC20CogatewayRawTx();
+      const auxiliaryDeployerBalance = await this.web3Auxiliary.eth.getBalance(this.auxiliaryDeployer);
+      console.log('ProxyDeployer -> activateGen0ERC20Cogateway -> auxiliaryDeployerBalance', auxiliaryDeployerBalance);
       await Utils.sendTransaction(cogatewayActivateRawTx, this.auxiliaryDeployer);
       console.log('    ✓ Gen0ERC20Cogateway contract is activated.');
     } catch (error) {
@@ -392,7 +402,7 @@ class ProxyDeployer {
       console.log('  ❌ Failed to update manifest fileUnlocking');
       console.log(`  ${error}`);
     }
-
+    console.log('ProxyDeployer -> deploy -> this.config', JSON.stringify(this.config));
     console.info('\n‣ Activating.');
     await this.activateGen0ERC20Cogateway();
   }

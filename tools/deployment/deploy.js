@@ -53,9 +53,9 @@ const run = async () => {
   if (filePath === undefined) {
     console.log('Invalid manifest file: ', process.argv[3]);
   } else if (process.argv[2] === 'mastercopy') {
-    deployMasterCopy(filePath);
+    await deployMasterCopy(filePath);
   } else if (process.argv[2] === 'proxy') {
-    deployProxy(filePath);
+    await deployProxy(filePath);
   } else {
     console.log('invalid param ', process.argv[2]);
   }
