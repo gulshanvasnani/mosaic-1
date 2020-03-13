@@ -24,20 +24,19 @@ class ProxyDeployer {
     let isGasAvailable = false;
 
     try {
+      console.log('fetching getERC20GatewayDeploymentRawTx');
       const erc20GatewayDeploymentRawTx = await this.getERC20GatewayDeploymentRawTx();
-
+      console.log('estimating gas');
       const gasForERC20GatewayProxyDeployment = await Utils.estimateGas(
         erc20GatewayDeploymentRawTx,
         this.originDeployer,
       );
-
       const deployerBalance = await this
         .web3Origin
         .eth
         .getBalance(
           this.originDeployer,
         );
-
       isGasAvailable = deployerBalance >= gasForERC20GatewayProxyDeployment;
       if (!isGasAvailable) {
         console.log(`    ❌ Insufficient gas for deployment, please fund ${this.originDeployer} address with ${gasForERC20GatewayProxyDeployment} on origin chain.`);
@@ -64,17 +63,7 @@ class ProxyDeployer {
         gen0ERC20CogatewayProxyRawTx,
         this.auxiliaryDeployer,
       );
-
-      /*
-      const activateGen0ERC20CogatewayRawTx = await this.getActivateGen0ERC20CogatewayRawTx();
-
-      const gasForActivateGen0ERC20Cogateway = await Utils.estimateGas(
-        activateGen0ERC20CogatewayRawTx,
-        this.auxiliaryDeployer,
-      );
-      */
       const totalGasRequired = gasForGen0ERC20CogatewayProxyDeployment;
-      // + gasForActivateGen0ERC20Cogateway;
 
       const deployerBalance = await this
         .web3Auxiliary
@@ -201,7 +190,7 @@ class ProxyDeployer {
       .encodeFunctionSignature('setup()');
     console.log('ProxyDeployer -> getGen0ERC20CogatewayDeploymentRawTx -> gen0ERC20CogatewaySetupData', gen0ERC20CogatewaySetupData);
 
-    const proxyFactoryAuxiliary = new this
+    const proxyFactoryAuxiliaryInstance = new this
       .web3Auxiliary
       .eth
       .Contract(
@@ -209,7 +198,7 @@ class ProxyDeployer {
         this.config.auxiliaryProxyDeployer(),
       );
 
-    const gen0ERC20CogatewayProxyRawTx = await proxyFactoryAuxiliary
+    const gen0ERC20CogatewayProxyRawTx = await proxyFactoryAuxiliaryInstance
       .methods
       .deployProxy(
         this.config.erc20CogatewayMasterCopyAddress(),
@@ -220,7 +209,7 @@ class ProxyDeployer {
   }
 
   async getERC20GatewayDeploymentRawTx() {
-    const gen0erc20C0gateway = new this
+    const gen0erc20Cogateway = new this
       .web3Auxiliary
       .eth
       .Contract(
@@ -229,7 +218,7 @@ class ProxyDeployer {
       );
     console.log('this.config.erc20CogatewayMasterCopyAddress() : ', this.config.erc20CogatewayMasterCopyAddress());
 
-    const outboxStorageIndex = await gen0erc20C0gateway
+    const outboxStorageIndex = await gen0erc20Cogateway
       .methods
       .OUTBOX_OFFSET()
       .call();
@@ -310,19 +299,19 @@ class ProxyDeployer {
         outboxStorageIndex.toString(10),
         this.config.utilityTokenMasterCopyAddress(),
       );
-    console.log('this.metachainId', this.metachainId);
-    console.log(' this.config.erc20GatewayProxyContractAddress()', this.config.erc20GatewayProxyContractAddress());
-    console.log(' this.config.auxiliaryAnchorAddress()', this.config.auxiliaryAnchorAddress());
-    console.log(' this.config.maxStorageRootItems()', this.config.maxStorageRootItems());
-    console.log(' outboxStorageIndex', outboxStorageIndex);
-    console.log(' this.config.utilityTokenMasterCopyAddress()', this.config.utilityTokenMasterCopyAddress());
+    // console.log('this.metachainId', this.metachainId);
+    // console.log(' this.config.erc20GatewayProxyContractAddress()', this.config.erc20GatewayProxyContractAddress());
+    // console.log(' this.config.auxiliaryAnchorAddress()', this.config.auxiliaryAnchorAddress());
+    // console.log(' this.config.maxStorageRootItems()', this.config.maxStorageRootItems());
+    // console.log(' outboxStorageIndex', outboxStorageIndex);
+    // console.log(' this.config.utilityTokenMasterCopyAddress()', this.config.utilityTokenMasterCopyAddress());
 
     return cogatewayActivateRawTx;
   }
 
   async deployGen0ERC20CogatewayProxy() {
     console.info('\n  • Deploying Gen0ERC20Cogateway proxy contract.');
-    let gen0ERC20CogatewayProxyAddress = null;
+    let gen0ERC20CogatewayProxyAddress;
     try {
       const gen0ERC20CogatewayProxyRawTx = await this.getGen0ERC20CogatewayDeploymentRawTx();
       gen0ERC20CogatewayProxyAddress = await Utils
@@ -371,9 +360,9 @@ class ProxyDeployer {
   }
 
   async deploy() {
-    if (!await this.isGasAvailableForDeployment()) {
-      return;
-    }
+    // if (!await this.isGasAvailableForDeployment()) {
+    //   return;
+    // }
 
     if (!await this.unlockAccount()) {
       return;
@@ -385,6 +374,7 @@ class ProxyDeployer {
     if (gen0ERC20CogatewayProxyAddress !== null) {
       this.config.updateERC20CogatewayProxyContractAddress(gen0ERC20CogatewayProxyAddress);
     }
+
 
     console.info('\n‣ Deploying proxy contract on origin chain.');
 
@@ -402,9 +392,10 @@ class ProxyDeployer {
       console.log('  ❌ Failed to update manifest fileUnlocking');
       console.log(`  ${error}`);
     }
-    console.log('ProxyDeployer -> deploy -> this.config', JSON.stringify(this.config));
-    console.info('\n‣ Activating.');
+    // console.log('ProxyDeployer -> deploy -> this.config', JSON.stringify(this.config));
+    console.info('\n‣ Activating Gen0Cogateway.');
     await this.activateGen0ERC20Cogateway();
+    process.exit(0);
   }
 }
 

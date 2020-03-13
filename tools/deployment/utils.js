@@ -2,7 +2,6 @@
 
 const fs = require('fs-extra');
 const path = require('path');
-const Web3 = require('web3');
 const cliProgress = require('cli-progress');
 
 const CONTRACT_BUILD_PATH = '../../build/contracts/';
@@ -69,6 +68,7 @@ const getBIN = (contractName) => {
 };
 
 const estimateGas = async (rawTx, deployer) => {
+  console.log('estimating gas for deployer', deployer);
   const gasEstimation = await rawTx
     .estimateGas(
       { from: deployer },
@@ -88,10 +88,10 @@ const send = async (rawTx, txOptions) => new Promise((resolve, reject) => {
     })
     .on('transactionHash', (transactionHash) => {
       console.log('    TransactionHash: ', transactionHash);
-      progressBar.start(24, 0);
+      progressBar.start(6, 0);
     })
     .on('confirmation', (confirmationNumber) => {
-      if (confirmationNumber === 24) {
+      if (confirmationNumber === 6) {
         progressBar.stop();
         resolve(transactionReceipt);
       }
@@ -121,26 +121,15 @@ const deployContract = (contract, txOptions) => new Promise((resolve, reject) =>
   });
 });
 
-const deployProxy = (rawTx, deployer) => new Promise(async (resolve, reject) => {
-  estimateGas(rawTx, deployer).then((estimatedGas) => {
-    const transaction = {
-      from: deployer,
-      gas: estimatedGas,
-    };
-
-    send(rawTx, transaction)
-      .then((receipt) => {
-        resolve(receipt.events.ProxyCreation.address);
-      })
-      .catch((error) => {
-        reject(error);
-      });
-  })
-    .catch((error) => {
-      reject(error);
-    });
-});
-
+const deployProxy = async (rawTx, deployer) => {
+  const estimatedGas = await estimateGas(rawTx, deployer);
+  const transaction = {
+    from: deployer,
+    gas: estimatedGas,
+  };
+  const receipt = await send(rawTx, transaction);
+  return receipt.events.ProxyCreation.returnValues.proxy;
+};
 
 const deploy = (
   web3,

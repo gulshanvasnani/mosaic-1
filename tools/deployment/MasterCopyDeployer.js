@@ -240,7 +240,8 @@ class MasterCopyDeployer {
       console.log('  ❌ Failed to update manifest fileUnlocking');
       console.log(`  ${error}`);
     }
-    console.log('MasterCopyDeployer -> deploy -> this.config', JSON.stringify(this.config));
+    // console.log('MasterCopyDeployer -> deploy -> this.config', JSON.stringify(this.config));
+    process.exit(0);
   }
 }
 
